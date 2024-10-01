@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from .forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
-from django.contrib.auth.views import LogoutView
 from django.conf import settings
 
 User = settings.AUTH_USER_MODEL
@@ -14,7 +13,7 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('Homepage:Homepage') 
+            return redirect('userauths:dashboard')  # Redirect to dashboard after signup
     else:
         form = UserCreationForm()
     
@@ -23,7 +22,7 @@ def signup_view(request):
 # Login Page
 def login_view(request):
     if request.user.is_authenticated:
-            return render(request, 'userauths/login.html')  
+        return redirect('userauths:dashboard')  # Redirect authenticated users to the dashboard
 
     if request.method == "POST":
         email = request.POST.get("email")
@@ -40,8 +39,16 @@ def login_view(request):
         if user is not None:
             login(request, user)
             messages.success(request, "You are logged in.")
-            return redirect("Homepage:Homepage")
+            return redirect("userauths:dashboard")  # Redirect to dashboard after login
         else:
             messages.warning(request, "Invalid password. Please try again.")
 
     return render(request, "userauths/sign-in.html")
+
+# Dashboard Page
+def dashboard_view(request):
+    # Ensure the user is logged in to access the dashboard
+    if not request.user.is_authenticated:
+        return redirect('userauths:login')
+
+    return render(request, 'userauths/dashboard.html', {'user': request.user})
