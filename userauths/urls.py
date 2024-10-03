@@ -7,5 +7,6 @@ app_name = "userauths"
 urlpatterns = [
     path("sign-up/", views.signup_view, name="sign-up"),
     path("login/", views.login_view, name="login"),
-    path('dashboard/', views.dashboard_view, name='dashboard')
+    path('dashboard/', views.dashboard_view, name='dashboard'),
+    path('level/', views.level_view, name='level'),
 ]

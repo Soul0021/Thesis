@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MemoraLang</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #357ABD; /* Background color */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 2.5rem;
+      color: #fff;
+      margin-bottom: 40px;
+    }
+
+    .levels {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .level {
+      font-size: 1.2rem;
+      font-family: 'Cherry Bomb One';
+      color: white;
+      padding: 25px 100px;
+      border-radius: 20px;
+      cursor: pointer;
+      background-color: #357ABD; /* Button color */
+      border: 2px solid black; /* White outline */
+      box-shadow: 10px -10px 0px white; /* Individual white shadow on each button */
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+   
+    .level a {
+      color: white;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">MemoraLang</div>
+    <div class="levels">
+      <div class="level"><a href="#beginner">Beginner</a></div>
+      <div class="level"><a href="#intermediate">Intermediate</a></div>
+      <div class="level"><a href="#advanced">Advanced</a></div>
+    </div>
+  </div>
+</body>
+</html>

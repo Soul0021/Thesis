@@ -52,3 +52,10 @@ def dashboard_view(request):
         return redirect('userauths:login')
 
     return render(request, 'userauths/dashboard.html', {'user': request.user})
+
+def level_view(request):
+    # Ensure the user is logged in to access the level page
+    if not request.user.is_authenticated:
+        return redirect('userauths:login')
+
+    return render(request, 'userauths/level.html', {'user': request.user})

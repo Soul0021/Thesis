@@ -136,7 +136,7 @@
             <!-- Learn Button with Image -->
             <div class="button-wrapper">
                 <img src="{% static 'assets/image/learn.png' %}" alt="Learn Image"> <!-- Replace with actual image URL -->
-                <a href="#" class="button">Learn</a>
+                <a href="{% url 'userauths:level' %}" class="button">Learn</a> 
             </div>
 
             <!-- Review Button with Image -->
@@ -146,23 +146,7 @@
             </div>
 
 
-    <script>
-        // Simulating unlocking the quiz after learning is completed
-        let lessonCompleted = false; // Change this variable when the lesson is completed
-
-        // Function to unlock the quiz
-        function unlockQuiz() {
-            if (lessonCompleted) {
-                const quizButton = document.querySelector('.button.locked');
-                quizButton.classList.remove('locked');
-                quizButton.href = "#";  // Update with the correct URL
-                document.getElementById('locked-message').style.display = 'none';
-            }
-        }
-
-        // This function would be triggered after completing the lesson
-        unlockQuiz();
-    </script>
+   
 
 </body>
 </html>
