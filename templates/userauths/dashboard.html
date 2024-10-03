@@ -131,19 +131,17 @@
         <h1>Welcome to Your Dashboard</h1>
         <p>Manage your learning and track your progress here.</p>
 
-        <!-- Button section with images -->
-        <div class="button-container">
-            <!-- Learn Button with Image -->
-            <div class="button-wrapper">
-                <img src="{% static 'assets/image/learn.png' %}" alt="Learn Image"> <!-- Replace with actual image URL -->
-                <a href="{% url 'userauths:level' %}" class="button">Learn</a> 
-            </div>
+        <!-- Learn Button with Image -->
+    <div class="button-wrapper">
+        <img src="{% static '/assets/image/learn.png' %}"alt="Learn Image"> 
+        <a href="{% url 'userauths:level' %}" class="button">Learn</a> 
+    </div>
 
-            <!-- Review Button with Image -->
-            <div class="button-wrapper">
-                <img src="{% static 'C:\Users\malac\Desktop\Thesis\static\assets\bg.png' %}" alt="Review Image"> <!-- Replace with actual image URL -->
-                <a href="#" class="button">Review</a>
-            </div>
+    <!-- Review Button with Image -->
+    <div class="button-wrapper">
+        <img src="{% static '/assets/image/bg.png' %}"  alt="Review Image"> 
+        <a href="#" class="button">Review</a>
+    </div>
 
 
    
