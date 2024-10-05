@@ -108,13 +108,15 @@
         <h2>Login</h2>
 
         <!-- Display form errors (if any) -->
-        {% if form.errors %}
-            <div class="error-message">
-                <p>Invalid email or password. Please try again.</p>
-            </div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="error-message">
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
         {% endif %}
 
-        <form method="POST">
+        <form method="POST" action="{% url 'userauths:login' %}">
             {% csrf_token %}
             <div class="form-group">
                 <input type="email" name="email" id="email" placeholder=" " required>

@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
 from .forms import UserCreationForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
+from .forms import CustomPasswordChangeForm
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
-User = settings.AUTH_USER_MODEL
+User = get_user_model()
 
 # Signup Page
 def signup_view(request):
@@ -20,6 +23,7 @@ def signup_view(request):
     return render(request, 'userauths/sign-up.html', {'form': form})
 
 # Login Page
+# Login Page
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('userauths:dashboard')  # Redirect authenticated users to the dashboard
@@ -32,7 +36,7 @@ def login_view(request):
             user = User.objects.get(email=email)
         except User.DoesNotExist:
             messages.warning(request, f"User with {email} doesn't exist.")
-            return render(request, "userauths/sign-in.html")
+            return render(request, "userauths/login.html")
 
         user = authenticate(request, username=user.username, password=password)
 
@@ -42,8 +46,9 @@ def login_view(request):
             return redirect("userauths:dashboard")  # Redirect to dashboard after login
         else:
             messages.warning(request, "Invalid password. Please try again.")
+            return render(request, "userauths/login.html")  # Return the login page with an error message
 
-    return render(request, "userauths/sign-in.html")
+    return render(request, "userauths/login.html")
 
 # Dashboard Page
 def dashboard_view(request):
@@ -59,3 +64,26 @@ def level_view(request):
         return redirect('userauths:login')
 
     return render(request, 'userauths/level.html', {'user': request.user})
+
+
+def logout_view(request):
+    logout(request)
+    request.session.delete()
+    messages.success(request, "Logout Successfully")
+    return redirect("userauths:login")
+
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = CustomPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('dashboard')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = CustomPasswordChangeForm(request.user)
+    return render(request, 'userauths/change_password.html', {'form': form})
