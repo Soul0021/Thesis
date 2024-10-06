@@ -7,7 +7,7 @@ from .forms import CustomPasswordChangeForm
 from django.conf import settings
 from django.contrib.auth import get_user_model
 
-User = get_user_model()
+User  = get_user_model()
 
 # Signup Page
 def signup_view(request):
@@ -38,8 +38,8 @@ def login_view(request):
         # try:
         #     user = User.objects.get(email=email)
         # except User.DoesNotExist:
-        #     messages.warning(request, f"User with {email} doesn't exist.")
-        #     return render(request, "userauths/sign-in.html", {"error": "User does not exist"})
+        #     messages.warning(request, f"User  with {email} doesn't exist.")
+        #     return render(request, "userauths/sign-in.html", {"error": "User  does not exist"})
 
         user = authenticate(request, email=email, password=password)
 
@@ -48,7 +48,7 @@ def login_view(request):
             messages.success(request, "You are logged in.")
             return redirect("userauths:dashboard")  # Redirect to dashboard after login
         else:
-            messages.warning(request, f"User {email} does not exist", {"error": "Invalid password. Please try again."})
+            messages.warning(request, f"User  {email} does not exist", {"error": "Invalid password. Please try again."})
 
     return render(request, "userauths/login.html")
 
@@ -83,7 +83,7 @@ def change_password(request):
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('dashboard')
+            return redirect('userauths:dashboard')  # Changed here
         else:
             messages.error(request, 'Please correct the errors below.')
     else:
