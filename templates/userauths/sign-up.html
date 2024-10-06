@@ -139,26 +139,42 @@
             <div class="form-group">
                 <input type="text" name="username" required placeholder=" " />
                 <label>Username</label>
+                {% if form.username.errors %}
+                    <div class="error">
+                        {{ form.username.errors }}  
+                    </div>
+                {% endif %}
             </div>
             <div class="form-group">
                 <input type="email" name="email" required placeholder=" " />
                 <label>Email</label>
+                {% if form.email.errors %}
+                    <div class="error">
+                        {{ form.email.errors }}
+                    </div>
+                {% endif %}
             </div>
             <div class="form-group">
-                <input type="password" id="password" name="password" required placeholder=" " />
+                <input type="password" id="password1" name="password1" required placeholder=" " />
                 <label>Password</label>
-                <span class="toggle-password" onclick="togglePassword('password')">👁️</span>
-                <div class="validation-msg" id="passwordRequirements">
-                    <p>Your password can’t be too similar to your other personal information.</p>
-                    <p>Your password must contain at least 8 characters.</p>
-                    <p>Your password can’t be a commonly used password.</p>
-                    <p>Your password can’t be entirely numeric.</p>
+                <span class="toggle-password" onclick="togglePassword('password1')">👁️</span>
+                <div id="passwordRequirements">
                 </div>
+                {% if form.password1.errors %}
+                    <div class="error">
+                        {{ form.password1.errors }}
+                    </div>
+                {% endif %}
             </div>
             <div class="form-group">
-                <input type="password" id="confirm-password" name="confirm_password" required placeholder=" " />
+                <input type="password" id="password2" name="password2" required placeholder=" " />
                 <label>Confirm Password</label>
-                <span class="toggle-password" onclick="togglePassword('confirm-password')">👁️</span>
+                <span class="toggle-password" onclick="togglePassword('password2')">👁️</span>
+                {% if form.password2.errors %}
+                    <div class="error">
+                        {{ form.password2.errors }}
+                    </div>
+                {% endif %}
             </div>
             <div class="requirements" id="passwordRequirementsRemarks">
                 <div class="requirement" id="lengthRequirement">
@@ -167,15 +183,15 @@
                 </div>
                 <div class="requirement" id="similarityRequirement">
                     <input type="checkbox" disabled />
-                    <p>Password can’t be too similar to your other personal information.</p>
+                    <p>Password can't be too similar to your other personal information.</p>
                 </div>
                 <div class="requirement" id="commonRequirement">
                     <input type="checkbox" disabled />
-                    <p>Password can’t be a commonly used password.</p>
+                    <p>Password can't be a commonly used password.</p>
                 </div>
                 <div class="requirement" id="numericRequirement">
                     <input type="checkbox" disabled />
-                    <p>Password can’t be entirely numeric.</p>
+                    <p>Password can't be entirely numeric.</p>
                 </div>
             </div>
             <button type="submit">Sign Up</button>
@@ -189,7 +205,7 @@
             passwordInput.setAttribute("type", passwordType);
         }
 
-        const passwordInput = document.getElementById('password');
+        const passwordInput = document.getElementById('password1');
         const passwordRequirements = document.getElementById('passwordRequirements');
         const passwordRequirementsRemarks = document.getElementById('passwordRequirementsRemarks');
 
