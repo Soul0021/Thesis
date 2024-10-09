@@ -55,44 +55,50 @@
 
         /* Styling the dashboard buttons and images */
         .button-container {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 30px;
-        }
+    display: flex;
+    justify-content: center; /* Center the button-wrapper containers horizontally */
+    align-items: center; /* Align the images and buttons vertically */
+    gap: 40px; /* Space between the two button-wrapper containers */
+    margin-top: 30px;
+}
 
-        .button-wrapper {
-            text-align: center;
-        }
+.button-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the image and button horizontally */
+    text-align: center;
+}
 
-        .button-wrapper img {
-            width: 100px;
-            height: 100px;
-            margin-bottom: 10px;
-        }
+.button-wrapper img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px; /* Space between the image and button */
+}
 
-        .button {
-            display: inline-block;
-            padding: 15px 30px;
-            font-size: 18px;
-            color: #fff;
-            background-color: #357ABD;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            width: 150px;
-            font-family: 'Cherry Bomb One', cursive; /* Cherry Bomb font for the buttons */
-        }
+.button {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #357ABD;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    width: 150px;
+    font-family: 'Cherry Bomb One', cursive; /* Cherry Bomb font for the buttons */
+    text-align: center;
+}
 
-        .button.locked {
-            background-color: grey;
-            cursor: not-allowed;
-        }
+.button.locked {
+    background-color: grey;
+    cursor: not-allowed;
+}
 
-        .button:hover {
-            background-color: #5a9bf8;
-        }
+.button:hover {
+    background-color: #5a9bf8;
+}
+
 
         /* Styling the locked message */
         .locked-message {
@@ -183,13 +189,13 @@
 
         <!-- Learn Button with Image -->
         <div class="button-wrapper">
-            <img src="{% static '/assets/image/learn.png' %}" alt="Learn Image"> 
+            <img src="{% static 'assets/image/learn2.png' %}" alt="Learn Image"> 
             <a href="{% url 'userauths:level' %}" class="button">Learn</a> 
         </div>
 
         <!-- Review Button with Image -->
         <div class="button-wrapper">
-            <img src="{% static '/assets/image/bg.png' %}" alt="Review Image"> 
+            <img src="{% static 'assets/image/review2.png' %}" alt="Review Image"> 
             <a href="#" class="button">Review</a>
         </div>
 
