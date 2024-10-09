@@ -11,10 +11,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --bg-image: url('{% static 'assets/image/bg3.png' %}');
+        }
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: center;
             background-color: #f0f0f0;
         }
 

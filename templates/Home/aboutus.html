@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - MemoraLang</title>
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg-image: url('{% static 'assets/image/bg3.png' %}');
+         }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            
+            background-color: #f0f0f0;
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+        }
+
+        .navbar {
+            background-color: #357ABD;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Cherry Bomb One', cursive;
+        }
+
+        .content img {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        .content h1 {
+            font-family: 'Cherry Bomb One', cursive;
+            font-size: 30px;
+            color: #357ABD;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 25px;
+            color: #333;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 20px;
+            color: #fff;
+            background-color: #357ABD;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 20px;
+            font-family: 'Cherry Bomb One', cursive;
+        }
+
+        .button:hover {
+            background-color: #5a9bf8;
+        }
+
+        .image-container {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 800px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <img src="{% static 'assets/image/title.png' %}" alt="MemoraLang Logo">
+    </div>
+    <div class="container">
+        <div class="content">
+            <h1>About MemoraLang</h1>
+            <p>Hello, learners! Welcome to MemoraLang, a language learning application designed to help you prepare for your upcoming trip to Another Country.</p>
+            <p>We will guide you through the basics of learning of the country you gonna visit, with a special focus on phrases and expressions that will be useful during your travels.</p>
+            <p>This application is personalized to your learning pace , ensuring that you retain everything you have learned thru the journey of your learning days</p>
+            <a href="{% url 'userauths:login' %}" class="button">Get started today</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-
-    <!-- Import Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap" rel="stylesheet">
-
+    {% load static %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap">
     <style>
+        :root {
+            --bg-image: url('{% static 'assets/image/bg3.png' %}');
+        }
         body {
-            background-color: #357ABD; /* Set background to blue */
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: center;
             font-family: Arial, sans-serif;
             height: 100vh;
             display: flex;
@@ -26,12 +29,13 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 350px;
             text-align: center;
+            margin: auto;
         }
 
         .login-form h2 {
-            font-family: 'Cherry Bomb One', cursive; /* Apply Cherry Bomb font */
+            font-family: 'Cherry Bomb One', cursive; 
             font-size: 36px;
-            color: #000;
+            color: #4A90E2;
         }
 
         .form-group {
@@ -45,6 +49,7 @@
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-sizing: border-box;
         }
 
         .form-group label {
@@ -65,9 +70,9 @@
         }
 
         button {
-            font-family: 'Cherry Bomb One', cursive; /* Apply Cherry Bomb font */
-            background-color: #357ABD; /* Button blue background */
-            color: #fff; /* White text */
+            font-family: 'Cherry Bomb One', cursive; 
+            background-color: #357ABD; 
+            color: #fff; 
             padding: 10px;
             border: none;
             border-radius: 5px;
@@ -76,7 +81,7 @@
         }
 
         button:hover {
-            background-color: #347ce7; /* Darker blue on hover */
+            background-color: #347ce7;
         }
 
         .error-message {
@@ -86,21 +91,20 @@
         }
 
         .sign-up-link {
-            display: block;
-            margin-top: 15px;
-            font-size: 14px;
-            color: #fff;
+    display: block;
+    margin-top: 15px;
+    font-size: 18px;
+    color: #333; 
         }
 
         .sign-up-link a {
-            color: #fff;
-            text-decoration: underline;
+    color: #333; 
+    text-decoration: underline;
         }
 
         .sign-up-link a:hover {
-            color: #dfe7ff;
+    color: #666; 
         }
-
     </style>
 </head>
 <body>
@@ -131,7 +135,7 @@
 
         <!-- Sign-up link -->
         <p class="sign-up-link">
-            Don't have an account? <a href="{% url 'userauths:sign-up' %}">Sign up here</a>.
+            New User? <a href="{% url 'userauths:sign-up' %}">Create an account for free</a>.
         </p>
     </div>
 </body>

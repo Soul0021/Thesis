@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
+    {% load static %}
     
-    <!-- Import Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --bg-image: url('{% static 'assets/image/bg3.png' %}');
+        }
         body {
-            background-color: #4A90E2; /* Set background to blue */
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: center;
             font-family: Arial, sans-serif;
             height: 100vh;
             display: flex;
@@ -29,9 +34,9 @@
         }
 
         .signup-form h2 {
-            font-family: 'Cherry Bomb One', cursive; /* Apply Cherry Bomb font */
+            font-family: 'Cherry Bomb One', cursive; 
             font-size: 36px;
-            color: #000;
+            color: #4A90E2;
         }
 
         .form-group {
@@ -73,9 +78,9 @@
         }
 
         button {
-            font-family: 'Cherry Bomb One', cursive; /* Apply Cherry Bomb font */
-            background-color: #4A90E2; /* Button blue background */
-            color: #fff; /* White text */
+            font-family: 'Cherry Bomb One', cursive; 
+            background-color: #4A90E2;
+            color: #fff; 
             padding: 10px;
             border: none;
             border-radius: 5px;
@@ -84,14 +89,14 @@
         }
 
         button:hover {
-            background-color: #4A90E2; /* Darker blue on hover */
+            background-color: #4A90E2; 
         }
 
         .validation-msg {
             font-size: 12px;
             color: red;
             text-align: left;
-            display: none; /* Hide validation messages by default */
+            display: none; 
             position: absolute;
             top: 100%;
             left: 0;
@@ -109,7 +114,7 @@
             text-align: left;
             margin-top: 5px;
             color: green;
-            display: none; /* Hide by default */
+            display: none; 
         }
 
         .requirement {
@@ -210,13 +215,13 @@
         const passwordRequirementsRemarks = document.getElementById('passwordRequirementsRemarks');
 
         passwordInput.onfocus = function() {
-            passwordRequirements.style.display = 'block'; // Show validation messages when focused
-            passwordRequirementsRemarks.style.display = 'block'; // Show requirements checkboxes
+            passwordRequirements.style.display = 'block'; 
+            passwordRequirementsRemarks.style.display = 'block'; 
         };
 
         passwordInput.onblur = function() {
-            passwordRequirements.style.display = 'none'; // Hide validation messages when focus is lost
-            passwordRequirementsRemarks.style.display = 'none'; // Hide requirements checkboxes
+            passwordRequirements.style.display = 'none'; t
+            passwordRequirementsRemarks.style.display = 'none'; 
         };
 
         passwordInput.addEventListener('input', function() {
@@ -232,15 +237,15 @@
 
             // Check if the password meets each requirement
             const hasMinimumLength = password.length >= 8;
-            const hasSimilarInformation = false; // Add your logic to check similarity
-            const hasCommonPassword = false; // Add your logic to check for commonly used passwords
+            const hasSimilarInformation = false; 
+            const hasCommonPassword = false; 
             const isEntirelyNumeric = /^\d+$/.test(password);
 
             // Update requirement checkboxes
             lengthRequirement.querySelector('input').checked = hasMinimumLength;
-            similarityRequirement.querySelector('input').checked = !hasSimilarInformation; // Invert logic
-            commonRequirement.querySelector('input').checked = !hasCommonPassword; // Invert logic
-            numericRequirement.querySelector('input').checked = !isEntirelyNumeric; // Invert logic
+            similarityRequirement.querySelector('input').checked = !hasSimilarInformation; 
+            commonRequirement.querySelector('input').checked = !hasCommonPassword; 
+            numericRequirement.querySelector('input').checked = !isEntirelyNumeric; 
         }
     </script>
 </body>
