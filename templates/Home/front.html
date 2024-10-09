@@ -11,7 +11,7 @@
             --bg-image: url('{% static 'assets/image/bg3.png' %}');
         }
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Times New Roman', Times, serif;
             margin: 0;
             padding: 0;
             background-image: var(--bg-image);
@@ -66,27 +66,18 @@
 
         .container {
             text-align: center;
-            margin-top: auto;
+            margin-top: 20px 20px;
             padding: 20px;
         }
-
         h1 {
-            font-size: 4em;
-            margin: 0;
-            color: #4A90E2;
-            font-weight: bold;
-            font-family: 'Cherry Bomb One', cursive;
-            text-shadow: 2px 2px 5px white;
-        }
-
-        h2 {
             font-size: 2em;
             margin-top: 10px;
-            color: #333;
+            color: #f5f4f4;
             font-family: sans-serif;
         }
 
         .button {
+            font-family: 'Cherry Bomb One', cursive;
             font-size: 1.5em;
             padding: 15px 30px;
             margin-top: 30px;
@@ -131,6 +122,21 @@
                 font-size: 0.9em;
                 padding: 8px 15px;
             }
+            .image-container {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 800px;
+        }
+
+        .image-container img {
+            width: 50%;
+            height: 50%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
             
         }
     </style>
@@ -142,9 +148,12 @@
             <button onclick="location.href='sign-up'">Sign Up</button>
         </div>
     </header>
+    <div class="image-container">
+        <img src="{% static 'assets/image/title.png' %}" alt="MemoraLang Logo">
+    </div>
     <div class="container">
-        <h1>MemoraLang</h1>
-        <h2>Master your learning journey with ease</h2>
+        <h1>Start your learning adventure today.</h1>
+        <h1>Choose your level and dive into interactive lessons!</h1>
         <button class="button" onclick="location.href='aboutus.html'">About Us</button>
     </div>
     <footer>
