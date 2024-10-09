@@ -5,12 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MemoraLang</title>
   <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap" rel="stylesheet">
+  {% load static %}
   <style>
+    :root {
+      --bg-image: url('{% static 'assets/image/bg1.png' %}');
+    }
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #357ABD; /* Background color */
+      background-image: var(--bg-image);
+      background-size: cover;
+      background-position: center;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -56,7 +62,7 @@
 </head>
 <body>
   <div class="container">
-    <div class="logo">MemoraLang</div>
+    <div class="logo">MemoraLang</div >
     <div class="levels">
       <div class="level"><a href="#beginner">Beginner</a></div>
       <div class="level"><a href="#intermediate">Intermediate</a></div>
