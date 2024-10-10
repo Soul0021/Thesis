@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'Home',
     'userauths',
     'Thesis',
+   
+
 ]
 
 MIDDLEWARE = [  

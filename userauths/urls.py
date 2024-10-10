@@ -1,6 +1,7 @@
 from django.urls import path
 from userauths import views
 
+
 app_name = "userauths"
 
 urlpatterns = [
@@ -9,6 +10,8 @@ urlpatterns = [
     path("login/", views.login_view, name="login"),
     path('dashboard/', views.dashboard_view, name='dashboard'),
     path('level/', views.level_view, name='level'),
+    path('roadmap/<str:level>/', views.roadmap_view, name='roadmap'), 
     path('change_password/', views.change_password, name='change_password'),
     path('home/',views.logout_view , name='logout'),
+ 
 ]

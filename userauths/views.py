@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from .forms import UserCreationForm
-from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
+from django.contrib.auth import login, authenticate, logout,  get_user_model
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from .forms import CustomPasswordChangeForm
 from django.conf import settings
-from django.contrib.auth import get_user_model
+from .models import UserProgress, Level, RoadmapStep
+from django.contrib.auth.decorators import login_required
 
 User  = get_user_model()
 
@@ -18,7 +19,7 @@ def signup_view(request):
             print("Form is valid")
             user = form.save()
             login(request, user)
-            return redirect('userauths:dashboard')  # Redirect to dashboard after signup
+            return redirect('userauths:dashboard') 
         else:
             print("Form is invalid:", form.errors)
     else:
@@ -29,7 +30,7 @@ def signup_view(request):
 # Login Page
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('userauths:dashboard')  # Redirect authenticated users to the dashboard
+        return redirect('userauths:dashboard') 
 
     if request.method == "POST":
         email = request.POST.get("email")
@@ -89,3 +90,37 @@ def change_password(request):
     else:
         form = CustomPasswordChangeForm(request.user)
     return render(request, 'userauths/change_password.html', {'form': form})
+
+
+def roadmap_view(request, level):
+    if not request.user.is_authenticated:
+        return redirect('userauths:login')
+
+    # Fetch the corresponding level object
+    try:
+        level_obj = Level.objects.get(name=level)
+    except Level.DoesNotExist:
+        return redirect('userauths:dashboard')  # Redirect if the level doesn't exist
+
+    # Fetch user progress related to the level and the logged-in user
+    user_progress = UserProgress.objects.filter(user=request.user, level=level_obj)
+
+    # Prepare the roadmap steps (assuming you have a model for steps)
+    roadmap_steps = RoadmapStep.objects.filter(level=level_obj).order_by('id')
+
+    # Create a context that indicates the status of each step
+    roadmap = []
+    for i, step in enumerate(roadmap_steps):
+        if i == 0:  # First lesson unlocked
+            status = 'completed' if user_progress.filter(roadmap_step=step, status='completed').exists() else 'unlocked'
+        else:
+            # All other lessons are locked unless the previous one is completed
+            previous_step_completed = user_progress.filter(roadmap_step=roadmap_steps[i - 1], status='completed').exists()
+            status = 'completed' if user_progress.filter(roadmap_step=step, status='completed').exists() else 'locked' if previous_step_completed else 'locked'
+        
+        roadmap.append({
+            'step': step,
+            'status': status,
+        })
+
+    return render(request, 'userauths/roadmap.html', {'roadmap': roadmap})

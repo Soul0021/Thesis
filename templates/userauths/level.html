@@ -53,7 +53,6 @@
       transition: background-color 0.3s ease, box-shadow 0.3s ease;
     }
 
-   
     .level a {
       color: white;
       text-decoration: none;
@@ -62,11 +61,11 @@
 </head>
 <body>
   <div class="container">
-    <div class="logo">MemoraLang</div >
+    <div class="logo">MemoraLang</div>
     <div class="levels">
-      <div class="level"><a href="#beginner">Beginner</a></div>
-      <div class="level"><a href="#intermediate">Intermediate</a></div>
-      <div class="level"><a href="#advanced">Advanced</a></div>
+      <div class="level"><a href="{% url 'userauths:roadmap' 'beginner' %}">Beginner</a></div>
+      <div class="level"><a href="{% url 'userauths:roadmap' 'intermediate' %}">Intermediate</a></div>
+      <div class="level"><a href="{% url 'userauths:roadmap' 'advanced' %}">Advanced</a></div>
     </div>
   </div>
 </body>

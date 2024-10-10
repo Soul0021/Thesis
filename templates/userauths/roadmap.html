@@ -1,10 +1,12 @@
-<html>
- <head>
-  <title>
-   MemoraLang Roadmap
-  </title>
-  <style>
-   body {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemoraLang Roadmap</title>
+    {% load static %}
+    <style>
+        body {
             margin: 0;
             padding: 0;
             background-color: #4AC3FF;
@@ -87,45 +89,32 @@
         .step.locked {
             pointer-events: none;
         }
-  </style>
- </head>
- <body>
-  <div class="container">
-   <a class="icon learn" href="#">
-    <img alt="Books icon" height="50" src="{% static 'assets/image/learn2.png' %}" width="50"/>
-    <div class="icon-text">
-     Learn
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a class="icon learn" href="#">
+            <img alt="Books icon" src="{% static 'assets/image/learn2.png' %}" />
+            <div class="icon-text">Learn</div>
+        </a>
+        <a class="icon quiz" href="#">
+            <img alt="Quiz icon" src="{% static 'assets/image/quiz.png' %}" />
+            <div class="icon-text">Quiz</div>
+        </a>
+        <div class="header">MemoraLang</div>
+        <div class="subheader">ROADMAP</div>
+        <div class="roadmap">
+            {% for entry in roadmap %}
+                <a class="step {% if entry.status == 'completed' %}completed{% elif entry.status == 'locked' %}locked{% endif %}" href="{% if entry.status != 'locked' %}{{ entry.step.get_absolute_url }}{% else %}# {% endif %}">
+                    {% if entry.status == 'locked' %}
+                        <img alt="Locked icon" src="{% static 'assets/image/lock.png' %}" />
+                    {% else %}
+                        <img alt="Unlocked icon" src="{% static 'assets/image/unlock.png' %}" />
+                    {% endif %}
+                </a>
+            {% endfor %}
+        </div>
+        
     </div>
-   </a>
-   <a class="icon quiz" href="#">
-    <img alt="Quiz icon" height="50" src="{% static 'assets/image/quiz.png' %}" width="50"/>
-    <div class="icon-text">
-     Quiz
-    </div>
-   </a>
-   <div class="header">
-    MemoraLang
-   </div>
-   <div class="subheader">
-    ROADMAP
-   </div>
-   <div class="roadmap">
-    <a class="step completed" href="#">
-     <img alt="Heart icon" height="40" src="{% static 'assets/image/unlock.png' %}" width="40"/>
-    </a>
-    <a class="step locked" href="#">
-     <img alt="Heart icon" height="40" src="{% static 'assets/image/lock.png' %}" width="40"/>
-    </a>
-    <a class="step locked" href="#">
-     <img alt="Heart icon" height="40" src="{% static 'assets/image/lock.png' %}" width="40"/>
-    </a>
-    <a class="step" href="#">
-     <img alt="Heart icon" height="40" src="{% static 'assets/image/unlock.png' %}" width="40"/>
-    </a>
-    <a class="step" href="#">
-     <img alt="Heart icon" height="40" src="{% static 'assets/image/unlock.png' %}" width="40"/>
-    </a>
-   </div>
-  </div>
- </body>
+</body>
 </html>
