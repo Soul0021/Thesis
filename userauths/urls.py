@@ -13,5 +13,6 @@ urlpatterns = [
     path('roadmap/<str:level>/', views.roadmap_view, name='roadmap'), 
     path('change_password/', views.change_password, name='change_password'),
     path('home/',views.logout_view , name='logout'),
- 
+    path('quiz/<int:step>/', views.quiz1, name='quiz1'),  # Quiz navigation
+    path('quiz-completed/', views.quiz_complete_view, name='quiz_completed'),
 ]

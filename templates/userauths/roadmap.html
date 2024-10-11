@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MemoraLang Roadmap</title>
     {% load static %}
+    {% load custom_tags %}
     <style>
         body {
             margin: 0;
@@ -93,28 +94,26 @@
 </head>
 <body>
     <div class="container">
-        <a class="icon learn" href="#">
-            <img alt="Books icon" src="{% static 'assets/image/learn2.png' %}" />
-            <div class="icon-text">Learn</div>
-        </a>
-        <a class="icon quiz" href="#">
-            <img alt="Quiz icon" src="{% static 'assets/image/quiz.png' %}" />
-            <div class="icon-text">Quiz</div>
-        </a>
         <div class="header">MemoraLang</div>
         <div class="subheader">ROADMAP</div>
         <div class="roadmap">
             {% for entry in roadmap %}
-                <a class="step {% if entry.status == 'completed' %}completed{% elif entry.status == 'locked' %}locked{% endif %}" href="{% if entry.status != 'locked' %}{{ entry.step.get_absolute_url }}{% else %}# {% endif %}">
-                    {% if entry.status == 'locked' %}
-                        <img alt="Locked icon" src="{% static 'assets/image/lock.png' %}" />
-                    {% else %}
-                        <img alt="Unlocked icon" src="{% static 'assets/image/unlock.png' %}" />
-                    {% endif %}
-                </a>
-            {% endfor %}
-        </div>
-        
+            <a class="step {% if entry.status == 'completed' %}completed{% elif entry.status == 'locked' %}locked{% endif %}" 
+            href="{% if entry.status != 'locked' %}{{ entry.step.get_absolute_url }}{% else %}# {% endif %}">
+             {% if entry.status == 'locked' %}
+                 <img alt="Locked icon" src="{% static 'assets/image/lock.png' %}" />
+             {% else %}
+                 <img alt="Unlocked icon" src="{% static 'assets/image/unlock.png' %}" />
+             {% endif %}
+         </a>         
+        {% endfor %}
+        <!-- Add 4 additional locked steps -->
+        {% for i in 4|range_ %}
+            <a class="step locked" href="#">
+                <img alt="Locked icon" src="{% static 'assets/image/lock.png' %}" />
+            </a>
+        {% endfor %}
     </div>
+</div>
 </body>
 </html>

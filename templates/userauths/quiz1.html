@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangul Vowels Matching</title>
+    <style>
+        body {
+            background-color: #00BFFF;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            color: #000;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .vowels, .sounds {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .vowel, .sound {
+            background-color: #1E90FF;
+            color: #fff;
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 5px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .sound {
+            background-color: #B0E0E6;
+            color: #1E90FF;
+        }
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .footer .icon {
+            font-size: 24px;
+        }
+        .footer .page-number {
+            font-size: 18px;
+        }
+        .footer .next {
+            font-size: 24px;
+            background-color: #fff;
+            color: #1E90FF;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .correct {
+            background-color: #32CD32 !important;
+        }
+        .incorrect {
+            background-color: #FF6347 !important;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="title">Match the Hangul vowels with their corresponding sounds</div>
+        
+        <form method="post" id="quiz-form">
+            {% csrf_token %}
+            <div class="vowels">
+                {% for vowel in quiz_data.vowels %}
+                    <div class="vowel" data-sound="{{ vowel.sound }}">{{ vowel.symbol }}</div>
+                {% endfor %}
+            </div>
+            <div class="sounds">
+                {% for sound in quiz_data.sounds %}
+                    <div class="sound" data-sound="{{ sound.label }}">{{ sound.label }}</div>
+                {% endfor %}
+            </div>
+            <input type="hidden" name="quiz_data" id="quiz-data" value="">
+            <button type="submit" class="next"><i class="fas fa-arrow-right"></i></button>
+        </form>
+
+        <div class="footer">
+            <div class="icon"><i class="fas fa-lightbulb"></i></div>
+            <div class="page-number">Step {{ step }} of {{ total_steps }}</div>
+        </div>
+    </div>
+
+    <script>
+        let selectedVowel = null;
+
+        document.querySelectorAll('.vowel').forEach(vowel => {
+            vowel.addEventListener('click', () => {
+                if (selectedVowel) {
+                    selectedVowel.classList.remove('selected');
+                }
+                selectedVowel = vowel;
+                vowel.classList.add('selected');
+            });
+        });
+
+        document.querySelectorAll('.sound').forEach(sound => {
+            sound.addEventListener('click', () => {
+                if (selectedVowel) {
+                    if (selectedVowel.getAttribute('data-sound') === sound.getAttribute('data-sound')) {
+                        selectedVowel.classList.add('correct');
+                        sound.classList.add('correct');
+                    } else {
+                        selectedVowel.classList.add('incorrect');
+                        sound.classList.add('incorrect');
+                    }
+                    // Save the answer for form submission
+                    const quizDataInput = document.getElementById('quiz-data');
+                    const answer = { vowel: selectedVowel.innerText, sound: sound.innerText };
+                    quizDataInput.value += JSON.stringify(answer) + '|';  // Collecting answers in a string
+                    setTimeout(() => {
+                        selectedVowel.classList.remove('selected', 'correct', 'incorrect');
+                        sound.classList.remove('correct', 'incorrect');
+                        selectedVowel = null;
+                    }, 1000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

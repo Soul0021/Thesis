@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth import get_user_model
+from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 
 # Custom User model
@@ -12,6 +12,7 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
 
 # Model for different learning levels
 class Level(models.Model):
@@ -31,26 +32,37 @@ class Level(models.Model):
 
 
 # Model for steps in the roadmap
+
 class RoadmapStep(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    level = models.ForeignKey(Level, on_delete=models.CASCADE)  # ForeignKey to Level
+    level = models.ForeignKey('Level', on_delete=models.CASCADE)
+    is_quiz = models.BooleanField(default=False)
+    order = models.IntegerField()
 
     def __str__(self):
         return self.name
 
-    class Meta:
-        verbose_name = 'Roadmap Step'
-        verbose_name_plural = 'Roadmap Steps'
+    def get_absolute_url(self):
+        # Assuming 'quiz_view' is the correct URL name
+        return reverse('userauths:quiz1', kwargs={'step': self.order})
+
+
 
 
 # Model for tracking user progress across different levels and roadmap steps
 class UserProgress(models.Model):
+    STATUS_CHOICES = [
+        ('completed', 'Completed'),
+        ('in_progress', 'In Progress'),  # User has started but not finished
+        ('locked', 'Locked'),  # User can't access this step yet
+        ('unlocked', 'Unlocked'),  # User can access this step
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
     roadmap_step = models.ForeignKey(RoadmapStep, on_delete=models.CASCADE)
-    progress = models.IntegerField()
-    status = models.CharField(max_length=20, choices=[('completed', 'Completed'), ('locked', 'Locked')])
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='locked')  # Default to locked
 
     def __str__(self):
         return f'{self.user.username} - {self.level.name} - {self.roadmap_step.name}'
@@ -58,4 +70,4 @@ class UserProgress(models.Model):
     class Meta:
         verbose_name = 'User Progress'
         verbose_name_plural = 'User Progresses'
-        unique_together = ('user', 'level', 'roadmap_step')  # Ensures uniqueness of user-level-roadmap_step combination
+        unique_together = ('user', 'level', 'roadmap_step')  # Ensure uniqueness for user-level-roadmap_step
