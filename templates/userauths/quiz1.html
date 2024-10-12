@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +5,7 @@
     <title>Hangul Vowels Matching</title>
     <style>
         body {
-            background-color: #00BFFF;
+            background-color: #00AEEF;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -30,7 +29,7 @@
             margin-bottom: 10px;
         }
         .vowel, .sound {
-            background-color: #1E90FF;
+            background-color: #005A9C;
             color: #fff;
             font-size: 24px;
             width: 50px;
@@ -43,8 +42,9 @@
             cursor: pointer;
         }
         .sound {
-            background-color: #B0E0E6;
-            color: #1E90FF;
+            background-color: #B3E5FC;
+            color: #005A9C;
+            font-size: 18px;
         }
         .footer {
             display: flex;
@@ -75,24 +75,48 @@
         .incorrect {
             background-color: #FF6347 !important;
         }
+        .lightbulb {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        .lightbulb img {
+            width: 30px;
+        }
+        .page-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 18px;
+            color: #fff;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <div class="container">
+        <div class="lightbulb">
+            <img src="https://storage.googleapis.com/a1aa/image/7m9bSHsVQZYNH1bNcAi63J44s4Ci55Pc9IY5b2RFjKs0kg5E.jpg" alt="Lightbulb icon">
+        </div>
         <div class="title">Match the Hangul vowels with their corresponding sounds</div>
         
         <form method="post" id="quiz-form">
-            {% csrf_token %}
             <div class="vowels">
-                {% for vowel in quiz_data.vowels %}
-                    <div class="vowel" data-sound="{{ vowel.sound }}">{{ vowel.symbol }}</div>
-                {% endfor %}
+                <div class="vowel" data-sound="eo">ㅓ</div>
+                <div class="vowel" data-sound="a">ㅏ</div>
+                <div class="vowel" data-sound="ya">ㅑ</div>
+                <div class="vowel" data-sound="o">ㅗ</div>
+                <div class="vowel" data-sound="u">ㅜ</div>
+                <div class="vowel" data-sound="yeo">ㅕ</div>
             </div>
             <div class="sounds">
-                {% for sound in quiz_data.sounds %}
-                    <div class="sound" data-sound="{{ sound.label }}">{{ sound.label }}</div>
-                {% endfor %}
+                <div class="sound" data-sound="eo">eo</div>
+                <div class="sound" data-sound="a">a</div>
+                <div class="sound" data-sound="i">i</div>
+                <div class="sound" data-sound="ya">ya</div>
+                <div class="sound" data-sound="o">o</div>
+                <div class="sound" data-sound="u">u</div>
+                <div class="sound" data-sound="yeo">yeo</div>
             </div>
             <input type="hidden" name="quiz_data" id="quiz-data" value="">
             <button type="submit" class="next"><i class="fas fa-arrow-right"></i></button>
@@ -100,7 +124,7 @@
 
         <div class="footer">
             <div class="icon"><i class="fas fa-lightbulb"></i></div>
-            <div class="page-number">Step {{ step }} of {{ total_steps }}</div>
+            <div class="page-number">1/10</div>
         </div>
     </div>
 
