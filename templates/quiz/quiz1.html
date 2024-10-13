@@ -1,0 +1,97 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangul Vowels Matching</title>
+    {% load static %}
+    <style>
+        :root {
+            --bg-image: url('{% static 'assets/image/bg3.png' %}');
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            display: center;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #3A8CC1;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin: 40px auto; 
+            top: 20%;
+            left: 22%;
+            transform: translateX(-50%);
+            position: relative;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .vowel, .sound {
+            background-color: #f7f7f7;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        .vowel:hover, .sound:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .next {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        .next:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="title">Match the Hangul vowels with their corresponding sounds</div>
+        <form method="post" id="quiz-form">
+            <div class="grid vowels">
+                {% for vowel in quiz_data.vowels %}
+                    <div class="vowel" data-sound="{{ vowel.sound }}">{{ vowel.symbol }}</div>
+                {% endfor %}
+            </div>
+            <div class="grid sounds">
+                {% for sound in quiz_data.sounds %}
+                    <div class="sound" data-sound="{{ sound.sound }}">{{ sound.label }}</div>
+                {% endfor %}
+            </div>
+            <input type="hidden" name="quiz_data" id="quiz-data" value="">
+            <button type="submit" class="next"><i class="fas fa-arrow-right"></i></button>
+        </form>
+    </div>
+
+    <script>
+        /* script remains the same */
+    </script>
+</body>
+</html>
