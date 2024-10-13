@@ -91,7 +91,36 @@
     </div>
 
     <script>
-        /* script remains the same */
+         let selectedVowel = null;
+
+document.querySelectorAll('.vowel').forEach(vowel => {
+    vowel.addEventListener('click', () => {
+        if (selectedVowel) {
+            selectedVowel.classList.remove('selected');
+        }
+        selectedVowel = vowel;
+        vowel.classList.add('selected');
+    });
+});
+
+document.querySelectorAll('.sound').forEach(sound => {
+    sound.addEventListener('click', () => {
+        if (selectedVowel) {
+            if (selectedVowel.getAttribute('data-sound') === sound.getAttribute('data-sound')) {
+                selectedVowel.classList.add('correct');
+                sound.classList.add('correct');
+            } else {
+                selectedVowel.classList.add('incorrect');
+                sound.classList.add('incorrect');
+            }
+            setTimeout(() => {
+                selectedVowel.classList.remove('selected', 'correct', 'incorrect');
+                sound.classList.remove('correct', 'incorrect');
+                selectedVowel = null;
+            }, 1000);
+        }
+    });
+});
     </script>
 </body>
 </html>
