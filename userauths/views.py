@@ -106,8 +106,9 @@ def roadmap_view(request, level):
 def quiz1(request, step=1):
     # Example quiz data
     QUIZ_DATA = [
-        {'vowels': [{'symbol': 'ㅣ', 'sound': 'i'}, {'symbol': 'ㅔ', 'sound': 'e'}, {'symbol': 'ㅖ', 'sound': 'ye'}, {'symbol': 'ㅐ', 'sound': 'ae'}, {'symbol': 'ㅡ', 'sound': 'eu'}, {'symbol': 'ㅛ', 'sound': 'yo'}]},
-        {'sounds': [{'label': 'i', 'sound': 'i'}, {'label': 'e', 'sound': 'e'}, {'label': 'ye', 'sound': 'ye'}, {'label': 'ae', 'sound': 'ae'}, {'label': 'eu', 'sound': 'eu'}, {'label': 'yo', 'sound': 'yo'}]}
+        {'vowels': [{'symbol': 'ㅣ', 'sound': 'i'}, {'symbol': 'ㅔ', 'sound': 'e'}, {'symbol': 'ㅖ', 'sound': 'ye'}, {'symbol': 'ㅐ', 'sound': 'ae'}, {'symbol': 'ㅡ', 'sound': 'eu'}, {'symbol': 'ㅛ', 'sound': 'yo'}],
+         'sounds': [{'label': 'i', 'sound': 'i'}, {'label': 'e', 'sound': 'e'}, {'label': 'ye', 'sound': 'ye'}, {'label': 'ae', 'sound': 'ae'}, {'label': 'eu', 'sound': 'eu'}, {'label': 'yo', 'sound': 'yo'}]},
+        # Add more quiz data here
     ]
     
     if step > len(QUIZ_DATA):
@@ -120,8 +121,7 @@ def quiz1(request, step=1):
         'step': step,
         'total_steps': len(QUIZ_DATA),
     }
-    return render(request, 'userauths/quiz1.html', context)  # Rendering `quiz1.html`
-
+    return render(request, 'userauths/lesson/beginner1.html', context)  # Rendering `quiz1.html`
 # Mark quiz as complete and unlock next step
 @login_required
 def quiz_complete_view(request, step_id):
