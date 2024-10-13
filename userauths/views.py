@@ -49,7 +49,7 @@ def login_view(request):
 # Dashboard Page
 @login_required
 def dashboard_view(request):
-    return render(request, 'userauths/dashboard.html', {'user': request.user})
+    return render(request, 'Home/dashboard.html', {'user': request.user})
 
 # Level Page
 @login_required
@@ -121,7 +121,7 @@ def quiz1(request, step=1):
         'step': step,
         'total_steps': len(QUIZ_DATA),
     }
-    return render(request, 'userauths/lesson/beginner1.html', context)  # Rendering `quiz1.html`
+    return render(request, 'lesson/beginner1.html', context)  # Rendering `quiz1.html`
 # Mark quiz as complete and unlock next step
 @login_required
 def quiz_complete_view(request, step_id):
