@@ -14,10 +14,9 @@
             background-size: cover;
             background-position: center;
         }
-        
+
         .container {
             max-width: 800px;
-            display: center;
             margin: 40px auto;
             padding: 20px;
             background-color: #3A8CC1;
@@ -30,97 +29,143 @@
             position: relative;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .title {
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
+            text-align: center;
         }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-gap: 20px;
+
+        .message {
+            font-size: 18px;
+            text-align: center;
             margin-bottom: 20px;
         }
-        
+
+        .message.correct {
+            color: #28a745;
+        }
+
+        .message.incorrect {
+            color: #dc3545;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            grid-gap: 20px;
+            justify-items: center;
+            margin-bottom: 20px;
+        }
+
         .vowel, .sound {
             background-color: #f7f7f7;
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 10px;
             cursor: pointer;
+            text-align: center;
+            font-size: 18px;
         }
-        
+
         .vowel:hover, .sound:hover {
             background-color: #f0f0f0;
         }
-        
+
         .next {
+            display: block;
+            width: 100%;
             background-color: #4CAF50;
             color: #fff;
-            padding: 10px 20px;
+            padding: 10px;
             border: none;
             border-radius: 10px;
             cursor: pointer;
+            text-align: center;
         }
-        
+
         .next:hover {
             background-color: #3e8e41;
         }
+
+        .correct {
+            background-color: #28a745;
+        }
+
+        .incorrect {
+            background-color: #dc3545;
+        }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+        let selectedVowel = null;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const messageBox = document.querySelector('.message');
+
+            document.querySelectorAll('.vowel').forEach(vowel => {
+                vowel.addEventListener('click', () => {
+                    if (selectedVowel) {
+                        selectedVowel.classList.remove('selected');
+                    }
+                    selectedVowel = vowel;
+                    vowel.classList.add('selected');
+                });
+            });
+
+            document.querySelectorAll('.sound').forEach(sound => {
+                sound.addEventListener('click', () => {
+                    if (selectedVowel) {
+                        if (selectedVowel.getAttribute('data-sound') === sound.getAttribute('data-sound')) {
+                            selectedVowel.classList.add('correct');
+                            sound.classList.add('correct');
+                            messageBox.textContent = 'Correct! You matched the vowel and sound correctly.';
+                            messageBox.classList.remove('incorrect');
+                            messageBox.classList.add('correct');
+                        } else {
+                            selectedVowel.classList.add('incorrect');
+                            sound.classList.add('incorrect');
+                            messageBox.textContent = 'Incorrect. Try again!';
+                            messageBox.classList.remove('correct');
+                            messageBox.classList.add('incorrect');
+                        }
+                        setTimeout(() => {
+                            selectedVowel.classList.remove('selected', 'correct', 'incorrect');
+                            sound.classList.remove('correct', 'incorrect');
+                            selectedVowel = null;
+                        }, 1000);
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="container">
         <div class="title">Match the Hangul vowels with their corresponding sounds</div>
+
+        <!-- Message Box -->
+        <div class="message"></div>
+        
+        <!-- Vowels Grid -->
+        <div class="grid-container vowels">
+            {% for vowel in quiz_data.vowels %}
+                <div class="vowel" data-sound="{{ vowel.sound }}">{{ vowel.symbol }}</div>
+            {% endfor %}
+        </div>
+        
+        <!-- Sounds Grid -->
+        <div class="grid-container sounds">
+            {% for sound in quiz_data.sounds %}
+                <div class="sound" data-sound="{{ sound.sound }}">{{ sound.label }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- Submit Button -->
         <form method="post" id="quiz-form">
-            <div class="grid vowels">
-                {% for vowel in quiz_data.vowels %}
-                    <div class="vowel" data-sound="{{ vowel.sound }}">{{ vowel.symbol }}</div>
-                {% endfor %}
-            </div>
-            <div class="grid sounds">
-                {% for sound in quiz_data.sounds %}
-                    <div class="sound" data-sound="{{ sound.sound }}">{{ sound.label }}</div>
-                {% endfor %}
-            </div>
             <input type="hidden" name="quiz_data" id="quiz-data" value="">
-            <button type="submit" class="next"><i class="fas fa-arrow-right"></i></button>
+            <button type="submit" class="next"><i class="fas fa-arrow-right"></i> Next</button>
         </form>
     </div>
-
-    <script>
-        let selectedVowel = null;
-
-document.querySelectorAll('.vowel').forEach(vowel => {
-    vowel.addEventListener('click', () => {
-        if (selectedVowel) {
-            selectedVowel.classList.remove('selected');
-        }
-        selectedVowel = vowel;
-        vowel.classList.add('selected');
-    });
-});
-
-document.querySelectorAll('.sound').forEach(sound => {
-    sound.addEventListener('click', () => {
-        if (selectedVowel) {
-            if (selectedVowel.getAttribute('data-sound') === sound.getAttribute('data-sound')) {
-                selectedVowel.classList.add('correct');
-                sound.classList.add('correct');
-            } else {
-                selectedVowel.classList.add('incorrect');
-                sound.classList.add('incorrect');
-            }
-            setTimeout(() => {
-                selectedVowel.classList.remove('selected', 'correct', 'incorrect');
-                sound.classList.remove('correct', 'incorrect');
-                selectedVowel = null;
-            }, 1000);
-        }
-    });
-});
-    </script>
 </body>
 </html>

@@ -20,3 +20,6 @@ class CustomPasswordChangeForm(PasswordChangeForm):
             if password1 != password2:
                 raise ValidationError("The two password fields didn't match.")
         return password2
+
+class QuizForm(forms.Form):
+    answer = forms.CharField(max_length=255)
