@@ -48,7 +48,14 @@ class RoadmapStep(models.Model):
         return reverse('userauths:quiz1', kwargs={'step': self.order})
 
 
-
+# Model for quizzes wrong and right, for formula's computation too
+class UserQuizFormula(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question_left = models.CharField(max_length=255) #list of wrong answered questions
+    e_factor = models.FloatField(default=0.5)
+    interval = models.FloatField(default=1.0)
+    half_life = models.FloatField(default=2.0)
+    time_interval = models.FloatField()
 
 # Model for tracking user progress across different levels and roadmap steps
 class UserProgress(models.Model):
