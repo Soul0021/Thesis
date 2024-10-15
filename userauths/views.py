@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.contrib import messages
 from django.urls import reverse
-from .forms import UserCreationForm, CustomPasswordChangeForm
+from .forms import UserCreationForm, CustomPasswordChangeForm, UserQuizFormulaForm
 from .models import UserProgress, Level, RoadmapStep, Vowel
+from django.contrib.auth.models import User
+from Thesis.formula import systemArchitecture
 from django.contrib.auth.decorators import login_required
 
 # Signup Page
@@ -175,3 +177,27 @@ def quiz_view(request):
     }
 
     return render(request, 'quiz_template.html', {'quiz_data': quiz_data})
+
+def create_quiz_formula(request):
+    if request.method == "POST":
+        form = UserQuizFormulaForm(request.POST)
+        if form.is_valid():
+            q = 1
+            prevEF = 0.5
+            prevInterval = 1
+            forgettingCurve = 2
+            prevBase = 0.1
+            probability = 0.8
+            result = systemArchitecture(q=q, prevEF=prevEF, prevInterval=prevInterval, forgettingCurve=forgettingCurve, prevBase=prevBase, probability=probability)
+            quiz_formula = UserQuizFormulaForm.object.create(
+                user=request.user,
+                question_left=0,
+                e_factor=result['newEFactor'],
+                interval=result['newInterval'],
+                half_life=result['newHalfLife'],
+                time_interval=result['newTimeInterval']
+            )
+            return redirect('level')
+    else:
+        form = UserQuizFormulaForm()
+    return render(request, '')

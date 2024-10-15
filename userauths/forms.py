@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import PasswordChangeForm
 from userauths.models import User
+from userauths.models import UserQuizFormula
 from django.core.exceptions import ValidationError
 
 class UserCreationForm(UserCreationForm):
@@ -9,7 +10,10 @@ class UserCreationForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
-
+class UserQuizFormulaForm(forms.ModelForm):
+    class Meta:
+        model = UserQuizFormula
+        fields = ['question_left', 'e_factor', 'interval', 'half_life', 'time_interval']
 
 
 class CustomPasswordChangeForm(PasswordChangeForm):
