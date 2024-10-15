@@ -10,19 +10,15 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            position: relative;
         }
         .container {
-            display: flex;
-            align-items: center;
-            text-align: left;
+            text-align: center;
         }
         .question {
             font-size: 24px;
             font-weight: bold;
             color: #000;
             margin-bottom: 20px;
-            text-align: center;
         }
         .symbol {
             background-color: #0D47A1;
@@ -31,19 +27,19 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-right: 20px;
+            margin: 0 auto 20px auto;
             border-radius: 10px;
         }
         .symbol span {
             font-size: 48px;
-            color: #fff;
+            color: #FFF;
         }
         .options {
             list-style: none;
             padding: 0;
         }
         .options li {
-            background-color: #B3E5FC;
+            background-color: #81D4FA;
             margin: 10px 0;
             padding: 10px;
             border-radius: 10px;
@@ -52,7 +48,7 @@
             cursor: pointer;
         }
         .options li:hover {
-            background-color: #81D4FA;
+            background-color: #4FC3F7;
         }
         .lightbulb {
             position: absolute;
@@ -81,16 +77,17 @@
   </style>
  </head>
  <body>
+  <div class="lightbulb">
+   <img alt="Lightbulb icon" height="50" src="https://storage.googleapis.com/a1aa/image/92Gq8Ife3Mig60qY0RlWN90rYefeLCbjbqM2KXAgAwPMGu3cC.jpg" width="50"/>
+  </div>
   <div class="container">
-   <div>
-    <div class="question">
-     What sound does this make?
-    </div>
-    <div class="symbol">
-     <span>
-      -
-     </span>
-    </div>
+   <div class="question">
+    What sound does this make?
+   </div>
+   <div class="symbol">
+    <span>
+     -
+    </span>
    </div>
    <ul class="options">
     <li>
@@ -103,6 +100,12 @@
      ui
     </li>
    </ul>
+  </div>
+  <div class="character">
+   <img alt="Character icon" height="50" src="https://storage.googleapis.com/a1aa/image/rEgYneau3vVEE6w5wUkM0D4PVDRwsc8FkRKuDBA3kEtX4emTA.jpg" width="50"/>
+  </div>
+  <div class="arrow">
+   <img alt="Arrow icon" height="50" src="https://storage.googleapis.com/a1aa/image/weofTHCplojceJoqdDzoeLZwKPiP2yddtPoaeLKS13SFGu3cC.jpg" width="50"/>
   </div>
  </body>
 </html>
