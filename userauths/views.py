@@ -117,9 +117,9 @@ def quiz1(request, step=1):
             correct = False
             incorrect = True
 
-        return render(request, 'lesson/day1/beginner1.html', {'quiz_data': quiz_data, 'correct': correct, 'incorrect': incorrect, 'correct_answer': correct_answer})
+        return render(request, 'lesson/b_day1/beginner1.html', {'quiz_data': quiz_data, 'correct': correct, 'incorrect': incorrect, 'correct_answer': correct_answer})
     else:
-        return render(request, 'lesson/day1/beginner1.html', {'quiz_data': quiz_data})
+        return render(request, 'lesson/b_day1/beginner1.html', {'quiz_data': quiz_data})
 
 # Mark quiz as complete and unlock next step
 @login_required
