@@ -13,20 +13,20 @@
             background-image: var(--bg-image);
             background-size: cover;
             background-position: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
         .container {
             max-width: 800px;
-            margin: 40px auto;
             padding: 20px;
-            background-color: #3A8CC1;
-            border: 1px solid #ddd;
+            background-color: #00AEEF;
             border-radius: 10px;
-            margin: 40px auto; 
-            top: 20%;
-            left: 22%;
-            transform: translateX(-50%);
-            position: relative;
+            text-align: center;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
@@ -34,12 +34,11 @@
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
-            text-align: center;
+            color: #000;
         }
 
         .message {
             font-size: 18px;
-            text-align: center;
             margin-bottom: 20px;
         }
 
@@ -60,13 +59,18 @@
         }
 
         .vowel, .sound {
-            background-color: #f7f7f7;
+            background-color: #005DAA;
+            color: #fff;
             padding: 20px;
-            border: 1px solid #ddd;
             border-radius: 10px;
             cursor: pointer;
             text-align: center;
-            font-size: 18px;
+            font-size: 24px;
+        }
+
+        .sound {
+            background-color: #A3D4F7;
+            color: #005DAA;
         }
 
         .vowel:hover, .sound:hover {
@@ -76,17 +80,14 @@
         .next {
             display: block;
             width: 100%;
-            background-color: #4CAF50;
-            color: #fff;
+            background-color: #fff;
+            color: #00AEEF;
             padding: 10px;
             border: none;
-            border-radius: 10px;
+            border-radius: 50%;
             cursor: pointer;
             text-align: center;
-        }
-
-        .next:hover {
-            background-color: #3e8e41;
+            font-size: 24px;
         }
 
         .correct {
@@ -96,26 +97,66 @@
         .incorrect {
             background-color: #dc3545;
         }
+
+        .selected {
+            background-color: #ffc107; /* Highlight color */
+            border-color: #ffa000;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .footer .page-number {
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .footer .next {
+            background-color: #fff;
+            color: #00AEEF;
+            border-radius: 50%;
+            padding: 10px;
+            font-size: 24px;
+        }
+
+        .footer .icon {
+            font-size: 24px;
+            color: #fff;
+        }
     </style>
     <script>
         let selectedVowel = null;
+        let selectedSound = null;  // Track selected sound
 
         window.addEventListener('DOMContentLoaded', () => {
             const messageBox = document.querySelector('.message');
 
+            // Handle vowel selection
             document.querySelectorAll('.vowel').forEach(vowel => {
                 vowel.addEventListener('click', () => {
                     if (selectedVowel) {
-                        selectedVowel.classList.remove('selected');
+                        selectedVowel.classList.remove('selected');  // Remove highlight from previous selection
                     }
-                    selectedVowel = vowel;
-                    vowel.classList.add('selected');
+                    selectedVowel = vowel;  // Store the new vowel
+                    vowel.classList.add('selected');  // Highlight the clicked vowel
                 });
             });
 
+            // Handle sound selection and matching logic
             document.querySelectorAll('.sound').forEach(sound => {
                 sound.addEventListener('click', () => {
-                    if (selectedVowel) {
+                    if (selectedVowel) {  // Make sure a vowel has been selected before selecting a sound
+                        if (selectedSound) {
+                            selectedSound.classList.remove('selected');  // Remove highlight from previous sound selection
+                        }
+                        selectedSound = sound;  // Store the new sound
+                        sound.classList.add('selected');  // Highlight the clicked sound
+
+                        // Check if selected vowel's sound matches the selected sound
                         if (selectedVowel.getAttribute('data-sound') === sound.getAttribute('data-sound')) {
                             selectedVowel.classList.add('correct');
                             sound.classList.add('correct');
@@ -129,11 +170,17 @@
                             messageBox.classList.remove('correct');
                             messageBox.classList.add('incorrect');
                         }
+
+                        // Reset selections after 1 second
                         setTimeout(() => {
                             selectedVowel.classList.remove('selected', 'correct', 'incorrect');
-                            sound.classList.remove('correct', 'incorrect');
+                            selectedSound.classList.remove('selected', 'correct', 'incorrect');
                             selectedVowel = null;
+                            selectedSound = null;
                         }, 1000);
+                    } else {
+                        // No vowel selected, show an alert or message if you want
+                        messageBox.textContent = 'Please select a vowel first!';
                     }
                 });
             });
@@ -153,19 +200,14 @@
                 <div class="vowel" data-sound="{{ vowel.sound }}">{{ vowel.symbol }}</div>
             {% endfor %}
         </div>
-        
+
         <!-- Sounds Grid -->
         <div class="grid-container sounds">
             {% for sound in quiz_data.sounds %}
-                <div class="sound" data-sound="{{ sound.sound }}">{{ sound.label }}</div>
+                <div class="sound" data-sound="{{ sound.sound }}">{{ sound.sound }}</div>
             {% endfor %}
         </div>
 
-        <!-- Submit Button -->
-        <form method="post" id="quiz-form">
-            <input type="hidden" name="quiz_data" id="quiz-data" value="">
-            <button type="submit" class="next"><i class="fas fa-arrow-right"></i> Next</button>
-        </form>
     </div>
 </body>
 </html>

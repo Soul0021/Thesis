@@ -1,0 +1,194 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangul Vowels Matching</title>
+    {% load static %}
+    <style>
+        :root {
+            --bg-image: url('{% static 'assets/image/bg3.png' %}');
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #3A8CC1;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin: 40px auto; 
+            top: 20%;
+            left: 22%;
+            transform: translateX(-50%);
+            position: relative;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .message {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .message.correct {
+            color: #28a745;
+        }
+
+        .message.incorrect {
+            color: #dc3545;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            grid-gap: 20px;
+            justify-items: center;
+            margin-bottom: 20px;
+        }
+
+        .vowel, .sound {
+            background-color: #f7f7f7;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .vowel:hover, .sound:hover {
+            background-color: #f0f0f0;
+        }
+
+        .next {
+            display: block;
+            width: 100%;
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .next:hover {
+            background-color: #3e8e41;
+        }
+
+        .correct {
+            background-color: #28a745;
+        }
+
+        .incorrect {
+            background-color: #dc3545;
+        }
+        .selected {
+            background-color: #ffc107; /* Highlight color */
+            border-color: #ffa000;
+        }
+
+    </style>
+    <script>
+        let selectedVowel = null;
+        let selectedSound = null;  // Track selected sound
+
+window.addEventListener('DOMContentLoaded', () => {
+    const messageBox = document.querySelector('.message');
+
+    // Handle vowel selection
+    document.querySelectorAll('.vowel').forEach(vowel => {
+        vowel.addEventListener('click', () => {
+            if (selectedVowel) {
+                selectedVowel.classList.remove('selected');  // Remove highlight from previous selection
+            }
+            selectedVowel = vowel;  // Store the new vowel
+            vowel.classList.add('selected');  // Highlight the clicked vowel
+        });
+    });
+
+    // Handle sound selection and matching logic
+    document.querySelectorAll('.sound').forEach(sound => {
+        sound.addEventListener('click', () => {
+            if (selectedVowel) {  // Make sure a vowel has been selected before selecting a sound
+                if (selectedSound) {
+                    selectedSound.classList.remove('selected');  // Remove highlight from previous sound selection
+                }
+                selectedSound = sound;  // Store the new sound
+                sound.classList.add('selected');  // Highlight the clicked sound
+
+                // Check if selected vowel's sound matches the selected sound
+                if (selectedVowel.getAttribute('data-sound') === sound.getAttribute('data-sound')) {
+                    selectedVowel.classList.add('correct');
+                    sound.classList.add('correct');
+                    messageBox.textContent = 'Correct! You matched the vowel and sound correctly.';
+                    messageBox.classList.remove('incorrect');
+                    messageBox.classList.add('correct');
+                } else {
+                    selectedVowel.classList.add('incorrect');
+                    sound.classList.add('incorrect');
+                    messageBox.textContent = 'Incorrect. Try again!';
+                    messageBox.classList.remove('correct');
+                    messageBox.classList.add('incorrect');
+                }
+
+                // Reset selections after 1 second
+                setTimeout(() => {
+                    selectedVowel.classList.remove('selected', 'correct', 'incorrect');
+                    selectedSound.classList.remove('selected', 'correct', 'incorrect');
+                    selectedVowel = null;
+                    selectedSound = null;
+                }, 1000);
+            } else {
+                // No vowel selected, show an alert or message if you want
+                messageBox.textContent = 'Please select a vowel first!';
+            }
+        });
+    });
+});
+
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Match the Hangul vowels with their corresponding sounds</div>
+
+        <!-- Message Box -->
+        <div class="message"></div>
+        
+        <!-- Vowels Grid -->
+      <!-- Vowels Grid -->
+        <div class="grid-container vowels">
+    {% for vowel in quiz_data.vowels %}
+            <div class="vowel" data-sound="{{ vowel.sound }}">{{ vowel.symbol }}</div>
+    {% endfor %}
+        </div>
+
+<!-- Sounds Grid -->
+        <div class="grid-container sounds">
+    {% for sound in quiz_data.sounds %}
+        <div class="sound" data-sound="{{ sound.sound }}">{{ sound.sound }}</div>
+    {% endfor %}
+            </div>
+
+        <!-- Submit Button -->
+        <form method="post" id="quiz-form">
+            <input type="hidden" name="quiz_data" id="quiz-data" value="">
+            <button type="submit" class="next"><i class="fas fa-arrow-right"></i> Next</button>
+        </form>
+    </div>
+</body>
+</html>
