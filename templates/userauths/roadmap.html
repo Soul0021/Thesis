@@ -7,9 +7,15 @@
     {% load static %}
     {% load custom_tags %}
     <style>
+         :root {
+            --bg-image: url('{% static 'assets/image/bg3.png' %}');
+        }
         body {
             margin: 0;
             padding: 0;
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: center;
             background-color: #4AC3FF;
             font-family: Arial, sans-serif;
             text-align: center;
@@ -90,12 +96,31 @@
         .step.locked {
             pointer-events: none;
         }
+        .image-container {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 800px;
+        }
+
+        .image-container img {
+            width: 50%;
+            height: 50%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+            
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">MemoraLang</div>
-        <div class="subheader">ROADMAP</div>
+        <div class="image-container">
+            <img src="{% static 'assets/image/title.png' %}" alt="MemoraLang Logo">
+            <div class="subheader">ROADMAP</div>
+        </div>
+        
         <div class="roadmap">
             {% for entry in roadmap %}
             <a class="step {% if entry.status == 'completed' %}completed{% elif entry.status == 'locked' %}locked{% endif %}" 
