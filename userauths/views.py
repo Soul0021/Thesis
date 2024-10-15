@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.contrib import messages
-from .forms import UserCreationForm, CustomPasswordChangeForm
 from django.urls import reverse
-from .models import UserProgress, Level, RoadmapStep
+from .forms import UserCreationForm, CustomPasswordChangeForm
+from .models import UserProgress, Level, RoadmapStep, Vowel
 from django.contrib.auth.decorators import login_required
-from .models import Vowel
+
 # Signup Page
 def signup_view(request):
     if request.method == 'POST':
@@ -55,6 +55,7 @@ def logout_view(request):
     return redirect("userauths:login")
 
 # Change Password
+@login_required
 def change_password(request):
     if request.method == 'POST':
         form = CustomPasswordChangeForm(request.user, request.POST)
@@ -95,6 +96,7 @@ def roadmap_view(request, level):
 
 # Combined Quiz View (Rendering `quiz1.html`)
 @login_required
+@login_required
 def quiz1(request, step=1):
     QUIZ_DATA = [
         {'vowels': [{'symbol': 'ㅣ', 'sound': 'i'}, {'symbol': 'ㅔ', 'sound': 'e'}, {'symbol': 'ㅖ', 'sound': 'ye'}, {'symbol': 'ㅐ', 'sound': 'ae'}, {'symbol': 'ㅡ', 'sound': 'eu'}, {'symbol': 'ㅛ', 'sound': 'yo'}],
@@ -102,8 +104,9 @@ def quiz1(request, step=1):
         }
     ]
 
+    # Redirect to quiz completion if the step exceeds the available quiz data
     if step > len(QUIZ_DATA):
-        return redirect('quiz_completed')  # Redirect when quiz is complete
+        return redirect('quiz_completed')
 
     quiz_data = QUIZ_DATA[step - 1]
     correct_answer = quiz_data['vowels'][0]['sound']
@@ -111,15 +114,25 @@ def quiz1(request, step=1):
     if request.method == 'POST':
         user_answer = request.POST.get('answer')
 
+        # Ensure that user_answer is not None
+        if not user_answer:
+            messages.error(request, "Please select an answer.")
+            return render(request, 'lesson/b_day1/beginner1.html', {'quiz_data': quiz_data})
+
+        # Convert the answers to lowercase for comparison
         if user_answer.lower() == correct_answer.lower():
             correct = True
         else:
             correct = False
-            incorrect = True
 
-        return render(request, 'lesson/b_day1/beginner1.html', {'quiz_data': quiz_data, 'correct': correct, 'incorrect': incorrect, 'correct_answer': correct_answer})
+        return render(request, 'lesson/b_day1/beginner1.html', {
+            'quiz_data': quiz_data,
+            'correct': correct,
+            'correct_answer': correct_answer
+        })
     else:
         return render(request, 'lesson/b_day1/beginner1.html', {'quiz_data': quiz_data})
+
 
 # Mark quiz as complete and unlock next step
 @login_required
@@ -138,7 +151,8 @@ def quiz_complete_view(request, step_id):
 
     return redirect('roadmap', level=step.level.name)
 
-
+# Custom Quiz View (Matches Vowels and Sounds)
+@login_required
 def quiz_view(request):
     if request.method == 'POST':
         selected_vowel = request.POST.get('selected_vowel')

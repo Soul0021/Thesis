@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -101,65 +102,94 @@
             border-color: #ffa000;
         }
 
+        .disabled {
+            pointer-events: none;  /* Disable click */
+        }
+
     </style>
     <script>
         let selectedVowel = null;
-        let selectedSound = null;  // Track selected sound
+        let selectedSound = null;
+        let correctPairs = 0;  // Track the number of correct pairs
 
-window.addEventListener('DOMContentLoaded', () => {
-    const messageBox = document.querySelector('.message');
+        window.addEventListener('DOMContentLoaded', () => {
+            const messageBox = document.querySelector('.message');
+            const nextButton = document.querySelector('.next');
+            const totalPairs = document.querySelectorAll('.vowel').length;  // Total number of pairs
 
-    // Handle vowel selection
-    document.querySelectorAll('.vowel').forEach(vowel => {
-        vowel.addEventListener('click', () => {
-            if (selectedVowel) {
-                selectedVowel.classList.remove('selected');  // Remove highlight from previous selection
-            }
-            selectedVowel = vowel;  // Store the new vowel
-            vowel.classList.add('selected');  // Highlight the clicked vowel
+            // Disable the "Next" button initially
+            nextButton.disabled = true;
+
+            // Handle vowel selection
+            document.querySelectorAll('.vowel').forEach(vowel => {
+                vowel.addEventListener('click', () => {
+                    if (selectedVowel) {
+                        selectedVowel.classList.remove('selected');  // Remove highlight from previous selection
+                    }
+                    selectedVowel = vowel;  // Store the new vowel
+                    vowel.classList.add('selected');  // Highlight the clicked vowel
+                });
+            });
+
+            // Handle sound selection and matching logic
+            document.querySelectorAll('.sound').forEach(sound => {
+                sound.addEventListener('click', () => {
+                    if (selectedVowel) {  // Make sure a vowel has been selected before selecting a sound
+                        if (selectedSound) {
+                            selectedSound.classList.remove('selected');  // Remove highlight from previous sound selection
+                        }
+                        selectedSound = sound;  // Store the new sound
+                        sound.classList.add('selected');  // Highlight the clicked sound
+
+                        // Check if selected vowel's sound matches the selected sound
+                        if (selectedVowel.getAttribute('data-sound') === sound.getAttribute('data-sound')) {
+                            selectedVowel.classList.add('correct', 'disabled');
+                            sound.classList.add('correct', 'disabled');
+                            messageBox.textContent = 'Correct! You matched the vowel and sound correctly.';
+                            messageBox.classList.remove('incorrect');
+                            messageBox.classList.add('correct');
+
+                            // Disable future clicks on this correct pair
+                            selectedVowel.removeEventListener('click', null);
+                            selectedSound.removeEventListener('click', null);
+
+                            // Increase correctPairs counter
+                            correctPairs++;
+
+                            // Check if all pairs are correct
+                            if (correctPairs === totalPairs) {
+                                messageBox.textContent = 'All pairs are matched! Moving to the next page...';
+                                
+                                // Enable the next button
+                                nextButton.disabled = false;
+
+                                // Auto-redirect after 5 seconds
+                                setTimeout(() => {
+                                    document.getElementById('quiz-form').submit();
+                                }, 5000);
+                            }
+                        } else {
+                            selectedVowel.classList.add('incorrect');
+                            sound.classList.add('incorrect');
+                            messageBox.textContent = 'Incorrect. Try again!';
+                            messageBox.classList.remove('correct');
+                            messageBox.classList.add('incorrect');
+                        }
+
+                        // Reset selections after 1 second (if incorrect)
+                        setTimeout(() => {
+                            selectedVowel.classList.remove('selected', 'incorrect');
+                            selectedSound.classList.remove('selected', 'incorrect');
+                            selectedVowel = null;
+                            selectedSound = null;
+                        }, 1000);
+                    } else {
+                        // No vowel selected, show an alert or message if you want
+                        messageBox.textContent = 'Please select a vowel first!';
+                    }
+                });
+            });
         });
-    });
-
-    // Handle sound selection and matching logic
-    document.querySelectorAll('.sound').forEach(sound => {
-        sound.addEventListener('click', () => {
-            if (selectedVowel) {  // Make sure a vowel has been selected before selecting a sound
-                if (selectedSound) {
-                    selectedSound.classList.remove('selected');  // Remove highlight from previous sound selection
-                }
-                selectedSound = sound;  // Store the new sound
-                sound.classList.add('selected');  // Highlight the clicked sound
-
-                // Check if selected vowel's sound matches the selected sound
-                if (selectedVowel.getAttribute('data-sound') === sound.getAttribute('data-sound')) {
-                    selectedVowel.classList.add('correct');
-                    sound.classList.add('correct');
-                    messageBox.textContent = 'Correct! You matched the vowel and sound correctly.';
-                    messageBox.classList.remove('incorrect');
-                    messageBox.classList.add('correct');
-                } else {
-                    selectedVowel.classList.add('incorrect');
-                    sound.classList.add('incorrect');
-                    messageBox.textContent = 'Incorrect. Try again!';
-                    messageBox.classList.remove('correct');
-                    messageBox.classList.add('incorrect');
-                }
-
-                
-                setTimeout(() => {
-                    selectedVowel.classList.remove('selected', 'correct', 'incorrect');
-                    selectedSound.classList.remove('selected', 'correct', 'incorrect');
-                    selectedVowel = null;
-                    selectedSound = null;
-                }, 1000);
-            } else {
-                // No vowel selected, show an alert or message if you want
-                messageBox.textContent = 'Please select a vowel first!';
-            }
-        });
-    });
-});
-
     </script>
 </head>
 <body>
@@ -170,25 +200,26 @@ window.addEventListener('DOMContentLoaded', () => {
         <div class="message"></div>
         
         <!-- Vowels Grid -->
-      <!-- Vowels Grid -->
         <div class="grid-container vowels">
-    {% for vowel in quiz_data.vowels %}
-            <div class="vowel" data-sound="{{ vowel.sound }}">{{ vowel.symbol }}</div>
-    {% endfor %}
+            {% for vowel in quiz_data.vowels %}
+                <div class="vowel" data-sound="{{ vowel.sound }}">{{ vowel.symbol }}</div>
+            {% endfor %}
         </div>
 
-<!-- Sounds Grid -->
+        <!-- Sounds Grid -->
         <div class="grid-container sounds">
-    {% for sound in quiz_data.sounds %}
-        <div class="sound" data-sound="{{ sound.sound }}">{{ sound.sound }}</div>
-    {% endfor %}
-            </div>
+            {% for sound in quiz_data.sounds %}
+                <div class="sound" data-sound="{{ sound.sound }}">{{ sound.sound }}</div>
+            {% endfor %}
+        </div>
 
-        <!-- Submit Button -->
+        <!-- Submit Form -->
         <form method="post" id="quiz-form">
+            {% csrf_token %}
             <input type="hidden" name="quiz_data" id="quiz-data" value="">
             <button type="submit" class="next"><i class="fas fa-arrow-right"></i> Next</button>
         </form>
+        
     </div>
 </body>
 </html>
